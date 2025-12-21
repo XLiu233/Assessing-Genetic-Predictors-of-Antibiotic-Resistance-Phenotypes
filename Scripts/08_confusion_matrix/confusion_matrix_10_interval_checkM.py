@@ -24,7 +24,7 @@ df2 = pd.read_csv('es0c03803_si_002.csv')
 
 df3 = pd.read_csv('checkm2_results.csv')
 checkM_dict = mkCheckM(df3)
-checkM_block_list = filterCheckM(checkM_dict)
+checkM_allow_list = filterCheckM(checkM_dict)
 
 # print(checkM_block_list)
 
@@ -41,10 +41,10 @@ random.shuffle(rows)
 
 phenotype_dict=mkphenofromrow(rows)
 print("before remove phenotype_dict have {} keys".format(len(phenotype_dict)))
-for key in checkM_block_list:
-    if key in phenotype_dict:
-        phenotype_dict.pop(key)
-print("after remove phenotype_dict have {} keys".format(len(phenotype_dict)))
+for key in list(phenotype_dict):
+   if key not in checkM_allow_list:
+       phenotype_dict.pop(key)
+print("after keep only allowed phenotype_dict have {} keys".format(len(phenotype_dict)))
 
 
 #Is this used?
@@ -54,11 +54,14 @@ CARD_dict = {}
 rows = []
 CARD_dict=mkCARDdict(df1)
 print("before remove CARD_dict have {} keys".format(len(CARD_dict)))
-for key in checkM_block_list:
-    if key in CARD_dict:
+for key in list(CARD_dict):
+    if key not in checkM_allow_list:
         CARD_dict.pop(key)
-print("after remove CARD_dict have {} keys".format(len(CARD_dict)))
+print("after keep only allowed CARD_dict have {} keys".format(len(CARD_dict)))
 
+CARD_dict = {}
+rows = []
+CARD_dict=mkCARDdict(df1)
 
 #Is this used? If so, where?
 import seaborn as sn

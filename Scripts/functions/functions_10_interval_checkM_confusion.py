@@ -20,16 +20,12 @@ def mkCheckM(df):
 def filterCheckM(checkM_dict):
   completenessTH = 90
   contaminationTH = 10
-  block_list = []
+  allow_list = []
   for key in checkM_dict:
     values = checkM_dict[key]
-    if values[0] < completenessTH or values[1] > contaminationTH:
-      block_list.append(key)
-  #add three missing genomes by hand
-  block_list.append('tcs_080317_11')
-  block_list.append('tcs_082417_01')
-  block_list.append('tcs_110917_05')
-  return block_list
+    if values[0] > completenessTH and values[1] < contaminationTH:
+      allow_list.append(key)
+  return allow_list
 
 def mkphenofromrow(rows):
  phenotype_dict = {}
@@ -367,25 +363,27 @@ def confusion_matrix_10_interval_checkM_def(df1, df2, df3, pd, math, random):
  #df2 = pd.read_csv('es0c03803_si_002.csv')
  #df3 = pd.read_csv('checkm2_results.csv')
  checkM_dict = mkCheckM(df3)
- checkM_block_list = filterCheckM(checkM_dict)
+ checkM_allow_list = filterCheckM(checkM_dict)
  phenotype_dict = {}
  rows = []
  rows=mkrows(df2)
  random.shuffle(rows)
  phenotype_dict=mkphenofromrow(rows)
  print("before remove phenotype_dict have {} keys".format(len(phenotype_dict)))
- for key in checkM_block_list:
-    if key in phenotype_dict:
+ for key in list(phenotype_dict):
+    if key not in checkM_allow_list:
         phenotype_dict.pop(key)
- print("after remove phenotype_dict have {} keys".format(len(phenotype_dict)))
+ print("after keep only allowed phenotype_dict have {} keys".format(len(phenotype_dict)))
+
  CARD_dict = {}
  rows = []
  CARD_dict=mkCARDdict(df1)
  print("before remove CARD_dict have {} keys".format(len(CARD_dict)))
- for key in checkM_block_list:
-    if key in CARD_dict:
-        CARD_dict.pop(key)
- print("after remove CARD_dict have {} keys".format(len(CARD_dict)))
+ for key in list(CARD_dict):
+     if key not in checkM_allow_list:
+         CARD_dict.pop(key)
+ print("after keep only allowed CARD_dict have {} keys".format(len(CARD_dict)))
+
  df=mkconfusion(CARD_dict,phenotype_dict,pd)
  return(df)
 
