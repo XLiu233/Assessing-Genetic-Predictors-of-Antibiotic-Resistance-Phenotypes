@@ -44,7 +44,7 @@ print("before remove phenotype_dict have {} keys".format(len(phenotype_dict)))
 for key in list(phenotype_dict):
    if key not in checkM_allow_list:
        phenotype_dict.pop(key)
-print("after remove allowed phenotype_dict have {} keys".format(len(phenotype_dict)))
+print("after keep only allowed phenotype_dict have {} keys".format(len(phenotype_dict)))
 
 
 #Is this used?
@@ -57,7 +57,7 @@ print("before remove CARD_dict have {} keys".format(len(CARD_dict)))
 for key in list(CARD_dict):
     if key not in checkM_allow_list:
         CARD_dict.pop(key)
-print("after remove allowed CARD_dict have {} keys".format(len(CARD_dict)))
+print("after keep only allowed CARD_dict have {} keys".format(len(CARD_dict)))
 
 CARD_dict = {}
 rows = []

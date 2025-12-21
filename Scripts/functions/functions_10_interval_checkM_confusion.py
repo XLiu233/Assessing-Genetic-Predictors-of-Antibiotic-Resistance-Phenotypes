@@ -373,7 +373,7 @@ def confusion_matrix_10_interval_checkM_def(df1, df2, df3, pd, math, random):
  for key in list(phenotype_dict):
     if key not in checkM_allow_list:
         phenotype_dict.pop(key)
- print("after remove allowed phenotype_dict have {} keys".format(len(phenotype_dict)))
+ print("after keep only allowed phenotype_dict have {} keys".format(len(phenotype_dict)))
 
  CARD_dict = {}
  rows = []
@@ -382,7 +382,7 @@ def confusion_matrix_10_interval_checkM_def(df1, df2, df3, pd, math, random):
  for key in list(CARD_dict):
      if key not in checkM_allow_list:
          CARD_dict.pop(key)
- print("after remove allowed CARD_dict have {} keys".format(len(CARD_dict)))
+ print("after keep only allowed CARD_dict have {} keys".format(len(CARD_dict)))
 
  df=mkconfusion(CARD_dict,phenotype_dict,pd)
  return(df)
