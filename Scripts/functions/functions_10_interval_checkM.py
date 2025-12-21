@@ -20,12 +20,12 @@ def mkCheckM(df):
 def filterCheckM(checkM_dict):
   completenessTH = 90
   contaminationTH = 10
-  block_list = []
+  allow_list = []
   for key in checkM_dict:
     values = checkM_dict[key]
-    if values[0] <= completenessTH or values[1] >= contaminationTH:
-      block_list.append(key)
-  return block_list
+    if values[0] > completenessTH and values[1] < contaminationTH:
+      allow_list.append(key)
+  return allow_list
 
 def mkphenofromrow(rows):
  phenotype_dict = {}
